@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Korvatunturin Joulukalenteri</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #1a472a;
+      color: #ffffff;
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 { color: #d4af37; }
+    .tarina-box {
+      background: rgba(0, 0, 0, 0.3);
+      padding: 15px;
+      border-radius: 10px;
+      max-width: 600px;
+      margin: 0 auto 20px auto;
+    }
+    .kalenteri {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+      gap: 12px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .luukku {
+      background-color: #c41e3a;
+      border: 2px solid #d4af37;
+      border-radius: 8px;
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: bold;
+      cursor: pointer;
+      user-select: none;
+      transition: transform 0.2s;
+    }
+    .luukku:hover { transform: scale(1.05); }
+    .luukku.auki {
+      background-color: #2e7d32;
+      border-color: #ffffff;
+    }
+
+    /* Modal / Pop-up ikkuna */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.8);
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    .modal-sisalto {
+      background: #ffffff;
+      color: #333;
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+    }
+    .modal-sisalto img {
+      max-width: 100%;
+      border-radius: 8px;
+      margin: 10px 0;
+    }
+    .sulkemispainike {
+      background: #c41e3a;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    input[type="text"] {
+      padding: 8px;
+      width: 80%;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button.tarkista {
+      background: #1a472a;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎄 Korvatunturin Avustaja 🎄</h1>
+  
+  <div class="tarina-box">
+    <p>Joulupukki ja tontut ovat pulassa! Korvatunturilla on sattunut pientä hämminkiä, ja jokaisen luukun takana on tehtävä, joka pitää ratkaista jotta joulu saadaan pelastettua.</p>
+  </div>
+
+  <div class="kalenteri" id="kalenteri"></div>
+
+  <!-- Pop-up ikkuna tehtäville ja palkinnoille -->
+  <div class="modal" id="modal">
+    <div class="modal-sisalto" id="modalSisalto"></div>
+  </div>
+
+  <script>
+    // 1. Luukkujen tiedot: Tarina, tehtävä, oikea vastaus (pienillä kirjaimilla), kuva ja musiikkilinkki
+    const luukutData = {
+      1: {
+        tarina: "Pukin rekireitin kartta on mennyt sekaisin! Auta järjestämään kirjaimet.",
+        kysymys: "Aseta kirjaimet järjestykseen: 'O-J-U-L-U'",
+        vastaus: "joulu",
+        kuva: "https://images.unsplash.com/photo-1512389142860-9c449e58a543?w=400",
+        lauluTeksti: "Kuuntele 1. päivän joululaulu YouTube-linkistä!",
+        lauluUrl: "https://www.youtube.com/watch?v=g-OF7K46gGk"
+      },
+      2: {
+        tarina: "Tonttulan keittiössä tarvitaan laskuapua piparitaikinan kanssa.",
+        kysymys: "Jos 3 tonttua syö kukin 4 piparia, montako piparia kuluu yhteensä?",
+        vastaus: "12",
+        kuva: "https://images.unsplash.com/photo-1481391319762-47dff72954d9?w=400",
+        lauluTeksti: "Katri Helena - Joulumaa",
+        lauluUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+      }
+      // Voit lisätä luukut 3-24 samalla kaavalla
+    };
+
+    const kalenteriElementti = document.getElementById('kalenteri');
+    const modal = document.getElementById('modal');
+    const modalSisalto = document.getElementById('modalSisalto');
+
+    // Haetaan aiemmin avatut luukut käyttäjän laitteen muistista
+    let avatutLuukut = JSON.parse(localStorage.getItem('avatutLuukut')) || [];
+
+    // Luodaan luukut sivuille (esimerkissä 24 luukkua)
+    for (let i = 1; i <= 24; i++) {
+      const luukku = document.createElement('div');
+      luukku.classList.add('luukku');
+      luukku.innerText = i;
+      
+      if (avatutLuukut.includes(i)) {
+        luukku.classList.add('auki');
+      }
+
+      luukku.addEventListener('click', () => avaaLuukku(i));
+      kalenteriElementti.appendChild(luukku);
+    }
+
+    function avaaLuukku(numero) {
+      const data = luukutData[numero];
+      
+      // Jos luukkua ei ole vielä määritelty tiedostossa
+      if (!data) {
+        alert("Tämä luukku avautuu myöhemmin!");
+        return;
+      }
+
+      // Jos luukku on jo avattu aiemmin, näytetään suoraan sisältö
+      if (avatutLuukut.includes(numero)) {
+        naytaSisalto(data);
+      } else {
+        // Jos luukku on kiinni, kysytään pulma
+        naytaTehtava(numero, data);
+      }
+
+      modal.style.display = 'flex';
+    }
+
+    function naytaTehtava(numero, data) {
+      modalSisalto.innerHTML = `
+        <h2>Luukku ${numero}</h2>
+        <p><em>${data.tarina}</em></p>
+        <p><strong>Pulma:</strong> ${data.kysymys}</p>
+        <input type="text" id="vastausInput" placeholder="Kirjoita vastaus...">
+        <br>
+        <button class="tarkista" onclick="tarkistaVastaus(${numero})">Avaa luukku</button>
+        <br>
+        <button class="sulkemispainike" onclick="suljeModal()">Sulje</button>
+      `;
+    }
+
+    function tarkistaVastaus(numero) {
+      const kayttajanVastaus = document.getElementById('vastausInput').value.trim().toLowerCase();
+      const oikeaVastaus = luukutData[numero].vastaus.toLowerCase();
+
+      if (kayttajanVastaus === oikeaVastaus) {
+        avatutLuukut.push(numero);
+        localStorage.setItem('avatutLuukut', JSON.stringify(avatutLuukut));
+        
+        // Päivitetään luukun ulkoasu ruudukossa
+        const luukut = document.querySelectorAll('.luukku');
+        luukut[numero - 1].classList.add('auki');
+
+        // Näytetään luukun palkinto
+        naytaSisalto(luukutData[numero]);
+      } else {
+        alert("Väärin meni, yritä uudelleen! Korvatunturi luottaa sinuun.");
+      }
+    }
+
+    function naytaSisalto(data) {
+      modalSisalto.innerHTML = `
+        <h2>Luukku auki! 🎉</h2>
+        <img src="${data.kuva}" alt="Joulukuva">
+        <p><a href="${data.lauluUrl}" target="_blank" rel="noopener noreferrer">${data.lauluTeksti}</a></p>
+        <button class="sulkemispainike" onclick="suljeModal()">Sulje</button>
+      `;
+    }
+
+    function suljeModal() {
+      modal.style.display = 'none';
+    }
+  </script>
+</body>
+</html>
