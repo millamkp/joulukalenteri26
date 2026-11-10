@@ -119,8 +119,17 @@
 <body>
   <!-- Ohjenappi sivun oikeassa yläkulmassa -->
   <button onclick="avaaOhjeet()" style="position: absolute; top: 15px; right: 15px; background: #00425e; color: white; border: none; border-radius: 50%; width: 36px; height: 36px; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">?</button>
+
   <h1>🎄 Joulukalenteri 2026 🎄</h1>
   
+  <!-- Joulun ajan laskuri (piiloutuu automaattisesti joulukuussa) -->
+  <div id="laskuri-container" style="text-align: center; margin: 20px 0; font-family: sans-serif; color: #00425e;">
+    <p style="font-size: 15px; font-weight: bold; margin-bottom: 6px;"> ✨Aikaa luukkujen avautumiseen✨</p>
+    <div id="joululaskuri" style="font-size: 16px; background: rgba(148, 223, 255, 0.8); display: inline-block; padding: 12px 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
+      Ladataan laskuria...
+    </div>
+  </div>
+
   <div class="tarina-box">
     <p>"Korvatunturilla on käynnissä melkoinen tohina, ja Joulupukki ja tontut tarvitsevat nyt kipeästi apuasi päivittäisissä jouluvalmisteluissa! Joka päivä eteesi tulee uusi pulma tai tehtävä - kun ratkaiset sen, autat tonttuja viemään valmisteluita eteenpäin kohti jouluaattoa. Laita tonttulakki päähän ja auta Joulupukkia ja tonttuja jouluvalmisteluissa!"</p>
   </div>
@@ -353,6 +362,40 @@
       kalenteriElementti.appendChild(luukku);
     }
 
+    function paivitaLaskuri() {
+      const nyt = new Date();
+      let vuosi = nyt.getFullYear();
+      
+      if (nyt.getMonth() === 11 && nyt.getDate() > 1) {
+        vuosi += 1;
+      }
+      
+      const tavoiteAika = new Date(`December 1, ${vuosi} 00:00:00`).getTime();
+      const ero = tavoiteAika - nyt.getTime();
+
+      const laskuriElementti = document.getElementById("joululaskuri");
+      const laskuriContainer = document.getElementById("laskuri-container");
+
+      if (!laskuriElementti || !laskuriContainer) return;
+
+      // Jos joulukuu on koittanut (tai aika on loppunut), piilotetaan koko laskuri kokonaan!
+      if (ero <= 0) {
+        laskuriContainer.style.display = "none"; // Poistaa elementin näkyvistä ja vapauttaa tilan
+        return;
+      }
+
+      // Lasketaan päivät, tunnit, minuutit ja sekunnit
+      const paivat = Math.floor(ero / (1000 * 60 * 60 * 24));
+      const tunnit = Math.floor((ero % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minuutit = Math.floor((ero % (1000 * 60 * 60)) / (1000 * 60));
+      const sekunnit = Math.floor((ero % (1000 * 60)) / 1000);
+
+      laskuriElementti.innerHTML = `${paivat} pv ${tunnit} h ${minuutit} min ${sekunnit} s`;
+    }
+
+    setInterval(paivitaLaskuri, 1000);
+    paivitaLaskuri();
+
     function avaaLuukku(numero) {
       const data = luukutData[numero];
       
@@ -472,6 +515,7 @@
     }
 
     function naytaSisalto(data, numero) {
+
       // Muutetaan tarvittaessa normaali youtube-linkki upotusmuotoon automaattisesti
       let embedUrl = data.lauluUrl;
 
