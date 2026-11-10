@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Korvatunturin Joulukalenteri</title>
+  <title>Joulukalenteri 2026</title>
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #1a472a;
+      background-color: #bdf7d1;
       color: #ffffff;
       text-align: center;
       margin: 0;
       padding: 20px;
     }
-    h1 { color: #d4af37; }
+    h1 { color: #00425e; }
     .tarina-box {
       background: rgba(0, 0, 0, 0.3);
       padding: 15px;
@@ -30,7 +30,7 @@
     }
     .luukku {
       background-color: #c41e3a;
-      border: 2px solid #d4af37;
+      border: 2px solid #ffffff;
       border-radius: 8px;
       aspect-ratio: 1;
       display: flex;
@@ -65,22 +65,39 @@
       padding: 20px;
       border-radius: 12px;
       max-width: 400px;
-      width: 100%;
+      width: 90%;
+      max-height: 85vh;
+      overflow-y: auto;
       text-align: center;
+      box-sizing: border-box;
     }
     .modal-sisalto img {
       max-width: 100%;
+      max-height: 50vh;
+      height: auto;
+      object-fit: contain;
       border-radius: 8px;
       margin: 10px 0;
     }
     .sulkemispainike {
-      background: #c41e3a;
+      background: #e3526a;
       color: white;
       border: none;
       padding: 8px 16px;
       border-radius: 5px;
       cursor: pointer;
       margin-top: 10px;
+    }
+    /* UUDELLEENYRKITYS-NAPIN TYYLI */
+    .uudelleen-nappi {
+      background: #ff9800;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+      margin-right: 5px;
     }
     input[type="text"] {
       padding: 8px;
@@ -90,7 +107,7 @@
       border-radius: 4px;
     }
     button.tarkista {
-      background: #1a472a;
+      background: #6fc38d;
       color: white;
       border: none;
       padding: 8px 16px;
@@ -100,11 +117,12 @@
   </style>
 </head>
 <body>
-
-  <h1>🎄 Korvatunturin Avustaja 🎄</h1>
+  <!-- Ohjenappi sivun oikeassa yläkulmassa -->
+  <button onclick="avaaOhjeet()" style="position: absolute; top: 15px; right: 15px; background: #00425e; color: white; border: none; border-radius: 50%; width: 36px; height: 36px; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">?</button>
+  <h1>🎄 Joulukalenteri 2026 🎄</h1>
   
   <div class="tarina-box">
-    <p>Joulupukki ja tontut ovat pulassa! Korvatunturilla on sattunut pientä hämminkiä, ja jokaisen luukun takana on tehtävä, joka pitää ratkaista jotta joulu saadaan pelastettua.</p>
+    <p>"Korvatunturilla on käynnissä melkoinen tohina, ja Joulupukki ja tontut tarvitsevat nyt kipeästi apuasi päivittäisissä jouluvalmisteluissa! Joka päivä eteesi tulee uusi pulma tai tehtävä - kun ratkaiset sen, autat tonttuja viemään valmisteluita eteenpäin kohti jouluaattoa. Laita tonttulakki päähän ja auta Joulupukkia ja tonttuja jouluvalmisteluissa!"</p>
   </div>
 
   <div class="kalenteri" id="kalenteri"></div>
@@ -114,26 +132,204 @@
     <div class="modal-sisalto" id="modalSisalto"></div>
   </div>
 
+
+
   <script>
     // 1. Luukkujen tiedot: Tarina, tehtävä, oikea vastaus (pienillä kirjaimilla), kuva ja musiikkilinkki
     const luukutData = {
       1: {
-        tarina: "Pukin rekireitin kartta on mennyt sekaisin! Auta järjestämään kirjaimet.",
-        kysymys: "Aseta kirjaimet järjestykseen: 'O-J-U-L-U'",
-        vastaus: "joulu",
-        kuva: "https://images.unsplash.com/photo-1512389142860-9c449e58a543?w=400",
-        lauluTeksti: "Kuuntele 1. päivän joululaulu YouTube-linkistä!",
-        lauluUrl: "https://www.youtube.com/watch?v=g-OF7K46gGk"
+        tarina: "Pukin rekireitin kartta on mennyt kiireen keskellä sekaisin! Auta järjestämään kirjaimet.",
+        kysymys: "Aseta kirjaimet järjestykseen: 'L-U-O-J-U-P-I-K-K-U'",
+        vastaus: ["joulupukki", "ohi"],
+        kuva: "https://github.com/millamkp/joulukalenteri26/blob/main/Kuvat/IMG_luukku1.jpg?raw=true",
+        lauluTeksti: "Kuuntele tästä laulu: Rekiretki",
+        lauluUrl: "https://www.youtube.com/watch?v=Xw0O3c3Gy38&list=RDXw0O3c3Gy38&start_radio=1"
       },
       2: {
-        tarina: "Tonttulan keittiössä tarvitaan laskuapua piparitaikinan kanssa.",
+        tarina: "Tonttulan keittiössä tuoksuu jo pipareille, mutta taikinan riittävyydestä pitää olla tarkkana. Auta tonttuja piparitaikinan kanssa laskemalla, kuinka moneen pipariin taikinaa tarvitaan.",
         kysymys: "Jos 3 tonttua syö kukin 4 piparia, montako piparia kuluu yhteensä?",
-        vastaus: "12",
-        kuva: "https://images.unsplash.com/photo-1481391319762-47dff72954d9?w=400",
-        lauluTeksti: "Katri Helena - Joulumaa",
-        lauluUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+        vastaus: ["12", "kaksitoista", "ohi"],
+        kuva: "https://github.com/millamkp/joulukalenteri26/blob/main/Kuvat/IMG_luukku2.jpg?raw=true",
+        lauluTeksti: "Joulu saapuu jokaiselle",
+        lauluUrl: "https://www.youtube.com/watch?v=-hpevp0svdE&list=RD-hpevp0svdE&start_radio=1"
+      },
+      3: {
+        tarina: "Porotallilla on vilskettä ja Tallitonttu on kiireessä sekoittanut porojen nimikyltit. Auta Tallitonttua tunnistamaan vielä viimeinen poro.",
+        kysymys: "Kuka poroista ohjaa rekeä ja tuo valon pimeään nenällään?",
+        vastaus: ["petteri", "ohi"],
+        kuva: "https://github.com/millamkp/joulukalenteri26/blob/main/Kuvat/IMG_luukku3.jpg?raw=true",
+        lauluTeksti: "Petteri-punakuono",
+        lauluUrl: "https://www.youtube.com/watch?v=xrJuqpccc4A&list=RDxrJuqpccc4A&start_radio=1"
+      },
+      4: {
+        tarina: "Löysit jälkiä lumihangesta. Tonttu Toljanteri ei kuitenkaan tunnista, mikä eläin pihassa on liikkunut. Auta Toljanteria ratkaisemaan, mikä eläin on kyseessä.",
+        kysymys: "Hyppelehdin lumihangessa ja syön mielelläni porkkanoita. Mikä eläin kyseessä?",
+        vastaus: ["jänis", "pupu", "pupujussi", "ohi"],
+        kuva: "https://github.com/millamkp/joulukalenteri26/blob/main/Kuvat/IMG_luukku4.jpg?raw=true",
+        lauluTeksti: "Reippahasti käypi askeleet",
+        lauluUrl: "https://www.youtube.com/watch?v=-c0v3C9Ppnc&list=PLZkbh0ARyZ45BNYrxwG5ocU9utZi9Mt6G&index=7"
+      },
+      5: {
+        tarina: "Tonttulan puuvarastossa on vilskettä. Saunatonttu tarvitsee polttopuita saunaa varten. Auta Saunatonttua valitsemaan oikea puu vihjeen avulla.",
+        kysymys: "Mikä puu pitää talvella vihreät neulasensa eikä pudota niitä?",
+        vastaus: ["kuusi", "mänty", "ohi"],
+        kuva: "https://github.com/millamkp/joulukalenteri26/blob/main/Kuvat/IMG_luukku5.jpg?raw=true",
+        lauluTeksti: "No onkos tullut kesä",
+        lauluUrl: "https://www.youtube.com/watch?v=sIxW90JP0yc&list=PLZkbh0ARyZ45BNYrxwG5ocU9utZi9Mt6G&index=9"
+      },
+      6: {
+        tarina: "Tänään vietetään itsenäisyyspäivää myös Korvatunturilla! Pukki nostaa lipun salkoon.",
+        kysymys: "Minkä värinen risti on Suomen lipussa?",
+        vastaus: ["sininen", "ohi"],
+        kuva: "https://github.com/millamkp/joulukalenteri26/blob/main/Kuvat/IMG_luukku6.jpg?raw=true",
+        lauluTeksti: "Finlandia",
+        lauluUrl: "https://www.youtube.com/watch?v=F5zg_af9b8c&list=RDF5zg_af9b8c&start_radio=1"
+      },
+      7: {
+        tarina: "Joulukuusi odottaa koristelua Tonttulan salissa, mutta latvan koriste on hukassa. Pukin apulainen tarvitsee apua sen muodon kanssa, jotta löytäisi sen.",
+        kysymys: "Mikä kuuluu joulukuusen latvaan ja loistaa pimeällä yötaivaalla?",
+        vastaus: ["joulutähti", "tähti", "ohi"],
+        kuva: "https://github.com/millamkp/joulukalenteri26/blob/main/Kuvat/IMG_luukku7.jpg?raw=true",
+        lauluTeksti: "Joulupuu on rakennettu",
+        lauluUrl: "https://www.youtube.com/watch?v=KIP77CdXmBE&list=PLZkbh0ARyZ45BNYrxwG5ocU9utZi9Mt6G&index=5"
+      },
+      8: {
+        tarina: "Korvatunturilla tuiskuaa ja ulkona on pakkasta. Tontut haluavat mennä laskemaan mäkeä. Auta tonttuja pukeutumaan lämpimästi.",
+        kysymys: "Mitä tonttujen kannattaa laittaa päälle?",
+        vastaus: ["ohi", "pipo", "lakki", "myssy", "hattu", "takki", "hanskat", "lapaset", "housut", "kengät", "villasukat", "pitkät kalsarit"],
+        kuva: "https://github.com/millamkp/joulukalenteri26/blob/main/Kuvat/IMG_luukku8.jpg?raw=true",
+        lauluTeksti: "Hei Kuuraparta",
+        lauluUrl: "https://www.youtube.com/watch?v=OXvdyZefxiQ&list=RDOXvdyZefxiQ&start_radio=1"
+      },
+      9: {
+        tarina: "Joulupukin pajassa paketteja pinotaan hyllyille. Apulaistonttu tarvitsee apua pinon laskemisessa.",
+        kysymys: "Jos alahyllyllä on 5 lahjapakettia, keskimmäisellä kaksi ja ylähyllyllä saman verran, montako pakettia hyllyillä on yhteensä?",
+        vastaus: ["9", "yhdeksän", "ohi"],
+        kuva: "https://github.com/millamkp/joulukalenteri26/blob/main/Kuvat/IMG_luukku9.jpg?raw=true",
+        lauluTeksti: "Joulupukin töissä",
+        lauluUrl: "https://www.youtube.com/watch?v=LISvFM753OM&list=RDLISvFM753OM&start_radio=1"
+      },
+      10: {
+        tarina: "Tonttutyttö on auttamassa Joulumuoria joulupuuron keitossa. Tonttutyttö ei malta odottaa ja tuijottaa kiehuvaa vettä ja pohtii, miten saisi ajan kulumaan nopeammin. Muori esittää hänelle arvoituksen. Osaatko auttaa sen ratkaisemisessa?",
+        kysymys: "Mikä juoksee, vaikka sillä ei ole jalkoja?",
+        vastaus: ["ohi", "kello", "aika", "ajatus", "ajatukset"],
+        kuva: "https://github.com/millamkp/joulukalenteri26/blob/main/Kuvat/IMG_luukku10.jpg?raw=true",
+        lauluTeksti: "Joulu on taas",
+        lauluUrl: "https://www.youtube.com/watch?v=zA9velkM_Zw&list=RDzA9velkM_Zw&start_radio=1"
+      },
+      11: {
+        tarina: "Tonttulan joulupuurossa on vanhan kansanperinteen mukaan piilotettu jotakin. Kuka sen löytääkään, saa onnea.",
+        kysymys: "Mikä joulupuuroon yleensä laitetaan tuomaan onnea?",
+        vastaus: ["ohi", "manteli"],
+        kuva: "https://github.com/millamkp/joulukalenteri26/blob/main/Kuvat/IMG_luukku11.jpg?raw=true",
+        lauluTeksti: "En etsi valtaa, loistoa",
+        lauluUrl: "https://www.youtube.com/watch?v=bi8Imt6P5iM&list=RDbi8Imt6P5iM&start_radio=1"
+      },
+      12: {
+        tarina: "Puolivälissä jouluun! Pukki laskee, kuinka monta kuukautta vuodessa on, ennen kuin seuraava joulu taas koittaa.",
+        kysymys: "Montako kuukautta on yhdessä vuodessa?",
+        vastaus: ["ohi", "12", "kaksitoista"],
+        kuva: "https://github.com/millamkp/joulukalenteri26/blob/main/Kuvat/IMG_luukku12.jpg?raw=true",
+        lauluTeksti: "Tulkoon joulu",
+        lauluUrl: "https://www.youtube.com/watch?v=vLGEugX-ITU&list=RDvLGEugX-ITU&start_radio=1"
+      },
+      13: {
+        tarina: "Lucia-päivä Korvatunturilla! Tontut kantavat valoa hämärään. Mikä asuste laitetaan Lucia-neidon päähän?",
+        kysymys: "Mitä Lucia-neito kantaa päässään?",
+        vastaus: ["ohi", "kynttiläkruunu", "kruunu", "kynttiläseppele", "seppele", "kynttilä", "kynttilöitä", "valo", "valoa"],
+        kuva: "https://github.com/millamkp/joulukalenteri26/blob/main/Kuvat/IMG20260613113538.jpg?raw=true",
+        lauluTeksti: "Santa Lucia",
+        lauluUrl: "https://www.youtube.com/watch?v=19PT9_gMPOY&list=RD19PT9_gMPOY&start_radio=1"
+      },
+      14: {
+        tarina: "Korvatunturin postitoimistossa on pinoutunut valtava määrä lasten kirjeitä. Postitonttu lajittelee kirjeitä hyllyyn. Hän järjestää kirjeet saapumisjärjestykseen: Marin kirje tuli ennen Katjan kirjettä. Katjan kirje tuli aamulla. Harrin kirje tuli ennen Marin kirjettä.",
+        kysymys: "Kenen kirje saapui viimeisenä ja pitäisi mennä kasan alimmaksi?",
+        vastaus: ["ohi", "katja", "katjan"],
+        kuva: "https://github.com/millamkp/joulukalenteri26/blob/main/Kuvat/IMG_luukku14.jpg?raw=true",
+        lauluTeksti: "Pukki tietää",
+        lauluUrl: "https://www.youtube.com/watch?v=vXCv3chCkeY&list=RDvXCv3chCkeY&start_radio=1"
+      },
+      15: {
+        tarina: "Pukin pajassa on tehty pitkä päivä, ja tontut pitävät pienen evästauon keittiössä. Nälkäinen Keittiötonttu pyytää sinua jakamaan herkut tasan.",
+        kysymys: "Jos sulla on 2 nakkia ja sä jaat ne kahtia, niin mitä sä saat?",
+        vastaus: ["ohi", "1", "yksi", "4", "neljä", "pyttipannua"],
+        kuva: "https://github.com/millamkp/joulukalenteri26/blob/main/Kuvat/IMG_luukku15.jpg?raw=true",
+        lauluTeksti: "Tonttu",
+        lauluUrl: "https://www.youtube.com/watch?v=V8xb5uywGsY&list=RDV8xb5uywGsY&start_radio=1"
+      },
+      16: {
+        tarina: "Korvatunturilla mietitään talven ihmeitä, kun lumi narskuu saappaan alla.",
+        kysymys: "Mikä kasvaa alaspäin ja sulaa auringossa?",
+        vastaus: ["ohi", "jää", "jääpuikko", "puikko"],
+        kuva: "https://github.com/millamkp/joulukalenteri26/blob/main/Kuvat/IMG_luukku16.jpg?raw=true",
+        lauluTeksti: "Varpunen jouluaamuna",
+        lauluUrl: "https://www.youtube.com/watch?v=9BmoafN_nGo&list=RD9BmoafN_nGo&start_radio=1"
+      },
+      17: {
+        tarina: "Joulupukki tarkistaa lahjasäkin nyörit. Paketteja on niin valtava määrä, että säkki meinaa ratketa liitoksistaan. Tontut pohtivat säkin kestävyyttä.",
+        kysymys: "Jos lahjasäkki kestää enintään 10 kiloa ja painoa on jo 6 kiloa, montako kiloa säkkiin voi laittaa vielä lisää ilman repeämistä?",
+        vastaus: ["ohi", "4", "neljä", "4 kiloa", "neljä kiloa"],
+        kuva: "https://github.com/millamkp/joulukalenteri26/blob/main/Kuvat/IMG_luukku17.jpg?raw=true",
+        lauluTeksti: "Joulumaa",
+        lauluUrl: "https://www.youtube.com/watch?v=Ex53WUcnOFI"
+      },
+      18: {
+        tarina: "Joulupukki istuu takkatulen ääressä syvissä mietteissä ja nauttii rauhoittavasta hetkestä ennen pitkää reissuaan. Osaatko ratkaista, mitä Joulupukki pohtii?",
+        kysymys: "Mikä on niin herkkä ja hauras, että jo pelkkä sen ääneen sanominen rikkoo sen?",
+        vastaus: ["ohi", "hiljaisuus"],
+        kuva: "https://github.com/millamkp/joulukalenteri26/blob/main/Kuvat/IMG_luukku18.jpg?raw=true",
+        lauluTeksti: "Sydämeeni joulun teen",
+        lauluUrl: "https://www.youtube.com/watch?v=FzPZtvZViEE&list=RDFzPZtvZViEE&start_radio=1"
+      },
+      19: {
+        tarina: "Porotallin suuri portti on mennyt lukkoon, ja portin avaamiseen tarvitaan salasana, joka liittyy talveen ja valkoiseen maisemaan.",
+        kysymys: "Mikä on valkoinen peitto, joka levittyy koko maan päälle ilman yhtään neulanpistoa tai lankaa?",
+        vastaus: ["ohi", "lumi", "pakkanen", "räntä", "lumipeite", "hanki", "lumihanki"],
+        kuva: "https://github.com/millamkp/joulukalenteri26/blob/main/Kuvat/IMG20251213160658.jpg?raw=true",
+        lauluTeksti: "Heinillä härkien kaukalon",
+        lauluUrl: "https://www.youtube.com/watch?v=EQr3lgmtPwQ"
+      },
+      20: {
+        tarina: "Korvatunturin keittiössä on käynnissä vuoden tärkein uunioperaatio. Kokkitonttu vilkuilee lämpömittaria ja hieroo käsiään yhteen – ilman tätä herkkua joulupöytä olisi aivan tyhjä! Mutta hupsista, salainen reseptilappu tippui uuninluukun eteen, ja kirjaimet menivät aivan sekaisin.",
+        kysymys: "Aseta kirjaimet oikeaan järjestykseen: 'K-I-U-L-U-J-O-N-K-K-U'",
+        vastaus: ["ohi", "joulukinkku", "kinkku"],
+        kuva: "https://github.com/millamkp/joulukalenteri26/blob/main/Kuvat/IMG_luukku20.jpg?raw=true",
+        lauluTeksti: "Jossain on kai vielä joulu",
+        lauluUrl: "https://www.youtube.com/watch?v=kU4907U-RcE&list=RDkU4907U-RcE&start_radio=1"
+      },
+      21: {
+        tarina: "Tonttulan keittiössä porisee suuri puurokattila, ja Kokkitonttu miettii aineksia.",
+        kysymys: "Jos puuroon laitetaan maitoa, voita ja suolaa, mikä on se tärkein pääraaka-aine, jota ilman joulupuuroa ei synny?",
+        vastaus: ["ohi", "riisi", "riisit", "puuroriisi"],
+        kuva: "https://github.com/millamkp/joulukalenteri26/blob/main/Kuvat/IMG_luukku21.jpg?raw=true",
+        lauluTeksti: "Kolme yötä jouluun on",
+        lauluUrl: "https://www.youtube.com/watch?v=fEeE4LBBlLc&list=RDfEeE4LBBlLc&start_radio=1"
+      },
+      22: {
+        tarina: "Talvipäivänseisaus! Vuoden pimein yö on käsillä, mutta Korvatunturilla valmistaudutaan jo valon voittamiseen.",
+        kysymys: "Mikä loistaa taivaalla ja lisää valoa vuoden pimeimpänä aikana?",
+        vastaus: ["ohi", "tähti", "tähdet", "kuu", "revontulet"],
+        kuva: "https://github.com/millamkp/joulukalenteri26/blob/main/Kuvat/IMG_luukku22.jpg?raw=true",
+        lauluTeksti: "Taivas sylissäni",
+        lauluUrl: "https://www.youtube.com/watch?v=vh1QWeKe-BY&list=RDvh1QWeKe-BY&start_radio=1"
+      },
+      23: {
+        tarina: "Aatonaatto! Porot ovat asettuneet riviin tallin eteen ja odottavat malttamattomina matkaan pääsyä. Jokainen tarvitsee vielä pienen herkkupalan.",
+        kysymys: "Mikä on se herkku, mitä porot rakastavat syödä?",
+        vastaus: ["ohi", "poronjäkälä", "jäkälä"],
+        kuva: "https://github.com/millamkp/joulukalenteri26/blob/main/Kuvat/IMG20260225142444.jpg?raw=true",
+        lauluTeksti: "Avaruus",
+        lauluUrl: "https://www.youtube.com/watch?v=49ov0LLaNFw&list=RD49ov0LLaNFw&start_radio=1"
+      },
+      24: {
+        tarina: "Jouluaatto on vihdoin täällä! Valmistelut on saatu maaliin ja Joulupukki on valmis lähtemään matkaan. Kiitos avustasi, ilman sinua Korvatunturi olisi ollut pulassa!",
+        kysymys: "Ketä Korvatunturin väki saa kiittää avusta? (Kirjoita tähän nimesi/nimenne)",
+        vastaus: "nimikenttä",
+        kuva: "https://github.com/millamkp/joulukalenteri26/blob/main/Kuvat/IMG_luukku24.jpg?raw=true",
+        lauluTeksti: "Jouluyö, juhlayö",
+        lauluUrl: "https://www.youtube.com/watch?v=IHJ-i6eH6P0&list=RDIHJ-i6eH6P0&start_radio=1"
       }
-      // Voit lisätä luukut 3-24 samalla kaavalla
+
     };
 
     const kalenteriElementti = document.getElementById('kalenteri');
@@ -166,11 +362,37 @@
         return;
       }
 
+      // Päivämäärätarkistus (aktivoituu joulukuussa)
+      const tanaan = new Date();
+      const nykyinenPaiva = tanaan.getDate();
+      const nykyinenKuukausi = tanaan.getMonth();
+
+      // 2. Jos ollaan vielä ennen joulukuuta (esim. alkukuusta ennen 22. päivää), 
+      // mutta halutaan estää varsinaisten luukkujen aukaisu ennen joulukuuta:
+      // if (nykyinenKuukausi < 11) {
+        // alert("Hei tonttu! Luukut avautuvat vasta 1. joulukuuta. Voit rauhassa tutustua ohjeisiin! 🎅");
+        // return;
+      // }
+
+      if (nykyinenKuukausi === 11 && numero > nykyinenPaiva) {
+        alert(`Hei tonttu! Luukku ${numero} aukeaa vasta oikeana päivänä. Odota vielä hetki! 🎄`);
+        return;
+      }
+
       // Jos luukku on jo avattu aiemmin, näytetään suoraan sisältö
       if (avatutLuukut.includes(numero)) {
-        naytaSisalto(data);
+        if (numero === 24) {
+          const tallennettuNimi = localStorage.getItem('kayttajanNimi') || "ystävä";
+          naytaSisalto({
+            tarina: `Hyvää joulua, ${tallennettuNimi}! 🎅✨ Joulupukki ja Korvatunturin väki kiittävät sinua valtavasti avustasi jouluvalmisteluissa. Ilman sinua tämä joulu olisi ollut pulassa!`,
+            kuva: data.kuva,
+            lauluTeksti: data.lauluTeksti,
+            lauluUrl: data.lauluUrl
+          }, numero);
+        } else {
+          naytaSisalto(data, numero);
+        }
       } else {
-        // Jos luukku on kiinni, kysytään pulma
         naytaTehtava(numero, data);
       }
 
@@ -191,35 +413,125 @@
     }
 
     function tarkistaVastaus(numero) {
-      const kayttajanVastaus = document.getElementById('vastausInput').value.trim().toLowerCase();
-      const oikeaVastaus = luukutData[numero].vastaus.toLowerCase();
+      // Tarkistetaan ensin, onko kyseessä viimeinen luukku (luukku 24)
+      if (numero === 24) {
+        // Otetaan syötetty nimi talteen (säilytetään isot/pienet kirjaimet)
+        const kayttajanNimi = document.getElementById('vastausInput').value.trim();
 
-      if (kayttajanVastaus === oikeaVastaus) {
+        if (kayttajanNimi !== "") {
+          // Merkitään luukku avatuksi ja tallennetaan muistiin
+          avatutLuukut.push(numero);
+          localStorage.setItem('avatutLuukut', JSON.stringify(avatutLuukut));
+          localStorage.setItem('kayttajanNimi', kayttajanNimi);
+
+          const luukut = document.querySelectorAll('.luukku');
+          luukut[numero - 1].classList.add('auki');
+
+          // Luodaan henkilökohtainen kiitosviesti ja näytetään se modal-ikkunassa
+          const data = luukutData[numero];
+          const henkilokohtainenSisalto = {
+            tarina: `Hyvää joulua, ${kayttajanNimi}! 🎅✨ Joulupukki ja Korvatunturin väki kiittävät sinua valtavasti avustasi jouluvalmisteluissa. Ilman sinua tämä joulu olisi ollut pulassa!`,
+            kysymys: "",
+            kuva: data.kuva,
+            lauluTeksti: data.lauluTeksti,
+            lauluUrl: data.lauluUrl
+          };
+
+          naytaSisalto(henkilokohtainenSisalto, numero);
+        } else {
+          alert("Kirjoita ensin nimesi kenttään, ennen kuin avaat aattoluukun!");
+        }
+        return; // Lopetetaan funktion suoritus tähän luukulle 24
+      }
+
+      // --- Muiden luukkujen normaali tarkistus jatkuu tästä normaalisti ---
+      const kayttajanVastaus = document.getElementById('vastausInput').value.trim().toLowerCase();
+      const oikeaTieto = luukutData[numero].vastaus;
+
+      let onkoOikein = false;
+
+      // Tarkistetaan, onko vastaus määritetty listaksi (taulukoksi) vai yksittäiseksi tekstiksi
+      if (Array.isArray(oikeaTieto)) {
+        const pienetVaihtoehdot = oikeaTieto.map(v => v.toLowerCase());
+        onkoOikein = pienetVaihtoehdot.includes(kayttajanVastaus);
+      } else {
+        onkoOikein = (kayttajanVastaus === oikeaTieto.toLowerCase());
+      }
+
+      if (onkoOikein) {
         avatutLuukut.push(numero);
         localStorage.setItem('avatutLuukut', JSON.stringify(avatutLuukut));
         
-        // Päivitetään luukun ulkoasu ruudukossa
         const luukut = document.querySelectorAll('.luukku');
         luukut[numero - 1].classList.add('auki');
 
-        // Näytetään luukun palkinto
-        naytaSisalto(luukutData[numero]);
+        naytaSisalto(luukutData[numero], numero);
       } else {
-        alert("Väärin meni, yritä uudelleen! Korvatunturi luottaa sinuun.");
+        alert("Hupsista! Vastaus ei ollut aivan oikein. Kokeile uudelleen, Korvatunturi luottaa sinuun!");
       }
     }
 
-    function naytaSisalto(data) {
+    function naytaSisalto(data, numero) {
+      // Muutetaan tarvittaessa normaali youtube-linkki upotusmuotoon automaattisesti
+      let embedUrl = data.lauluUrl;
+
+      if (embedUrl.includes("watch?v=")) {
+        embedUrl = embedUrl.replace("watch?v=", "embed/");
+      } else if (embedUrl.includes("youtu.be/")) {
+        embedUrl = embedUrl.replace("youtu.be/", "youtube.com/embed/");
+      }
+
+      // 2. Lisätään autoplay, jotta soitin yrittää käynnistyä luukun aukeutessa
+      if (!embedUrl.includes("autoplay=1")) {
+        embedUrl += embedUrl.includes("?") ? "&autoplay=1" : "?autoplay=1";
+      }
       modalSisalto.innerHTML = `
         <h2>Luukku auki! 🎉</h2>
         <img src="${data.kuva}" alt="Joulukuva">
-        <p><a href="${data.lauluUrl}" target="_blank" rel="noopener noreferrer">${data.lauluTeksti}</a></p>
+
+        <div style="margin: 15px 0;">
+          <a href="${data.lauluUrl}" target="_blank" rel="noopener noreferrer" style="display: inline-block; background-color: #ff0000; color: white; padding: 8px 14px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 14px;">
+            ▶ ${data.lauluTeksti}
+          </a>
+        </div>
+
+        <button class="uudelleen-nappi" onclick="yritaUudelleen(${numero})">Yritä pulmaa uudelleen 🔄</button>
         <button class="sulkemispainike" onclick="suljeModal()">Sulje</button>
       `;
     }
 
+    function yritaUudelleen(numero) {
+      // 1. Suodatetaan kyseinen luukku pois avattujen listalta
+      avatutLuukut = avatutLuukut.filter(l => l !== numero);
+      localStorage.setItem('avatutLuukut', JSON.stringify(avatutLuukut));
+
+      // 2. Poistetaan luukun vihreä 'auki'-luokka näkyvistä
+      const luukut = document.querySelectorAll('.luukku');
+      luukut[numero - 1].classList.remove('auki');
+
+      // 3. Näytetään tehtävä uudelleen kyseiselle luukulle
+      naytaTehtava(numero, luukutData[numero]);
+    }
+
     function suljeModal() {
       modal.style.display = 'none';
+    }
+
+    // Funktio, joka näyttää ohjeet samassa modaali-ikkunassa
+    function avaaOhjeet() {
+      modalSisalto.innerHTML = `
+        <h2>🎄 Joulukalenterin ohjeet 🎄</h2>
+        <p style="text-align: left; margin: 15px 0; line-height: 1.5;">
+          1. <strong>Avaa luukku</strong> klikkaamalla päivän numeroa.<br><br>
+          2. <strong>Ratkaise pulma</strong> kirjoittamalla vastaus sille varattuun kenttään ja paina avaamispainiketta.<br><br>
+          3. <strong>Väärä vastaus:</strong> Jos vastauksesi on väärä, kalenteri antaa virheilmoituksen. Voit yrittää ratkaisua niin monta kertaa kuin haluat! <strong>Lisävinkkejä</strong> pulmien ratkaisuun saa pyydettäessä kalenterin tekijältä 🎅<br><br> 
+          4. <strong>Palkinto:</strong> Oikean vastauksen jälkeen näet päivän kuvan sekä laulun kuuntelupainikkeen. Voit kuunnella laulun YouTubessa avaamalla sen painikkeesta.<br><br>
+          5. <strong>Uudelleenyritys:</strong> Jos haluat ratkaista pulman uudelleen, voit painaa avatun luukun sisältä löytyvää "Yritä pulmaa uudelleen" -nappia! Muuten luukku jää avatuksi ja pulma ratkaistuksi.<br><br>
+          6. <strong>Sulje luukku</strong> painamalla sulje nappia. Tällöin pulmaa ei tarvitse ratkaista uudelleen, vaan pääset suoraan ihastelemaan luukun palkintoa myöhemminkin!
+        </p>
+        <button class="sulkemispainike" onclick="suljeModal()">Selvä, kiitos!✨</button>
+      `;
+      modal.style.display = 'flex';
     }
   </script>
 </body>
