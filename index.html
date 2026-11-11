@@ -362,6 +362,17 @@
     const modal = document.getElementById('modal');
     const modalSisalto = document.getElementById('modalSisalto');
 
+    // Piilotetaan joulun ajan laskuri automaattisesti, kun joulukuu alkaa
+    const tanaan = new Date();
+    const nykyinenKuukausi = tanaan.getMonth(); // 11 = Joulukuu (0 = tammi, 11 = joulu)
+
+    if (nykyinenKuukausi >= 11) {
+      const laskuriContainer = document.getElementById('laskuri-container');
+      if (laskuriContainer) {
+        laskuriContainer.style.display = 'none';
+      }
+    }
+
     // Haetaan aiemmin avatut luukut käyttäjän laitteen muistista
     let avatutLuukut = JSON.parse(localStorage.getItem('avatutLuukut')) || [];
 
