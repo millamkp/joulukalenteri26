@@ -458,10 +458,10 @@
 
       // 2. Jos ollaan vielä ennen joulukuuta (esim. alkukuusta ennen 22. päivää), 
       // mutta halutaan estää varsinaisten luukkujen aukaisu ennen joulukuuta:
-      // if (nykyinenKuukausi < 11) {
-        // alert("Hei tonttu! Luukut avautuvat vasta 1. joulukuuta. Voit rauhassa tutustua ohjeisiin! 🎅");
-        // return;
-      // }
+      if (nykyinenKuukausi < 11) {
+        alert("Hei tonttu! Luukut avautuvat vasta 1. joulukuuta. Voit rauhassa tutustua ohjeisiin! 🎅");
+        return;
+      }
 
       if (nykyinenKuukausi === 11 && numero > nykyinenPaiva) {
         alert(`Hei tonttu! Luukku ${numero} aukeaa vasta oikeana päivänä. Odota vielä hetki! 🎄`);
