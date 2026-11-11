@@ -31,12 +31,13 @@
     .luukku {
       background-color: #c41e3a;
       border: 2px solid #ffffff;
-      border-radius: 8px;
+      border-radius: 12px;
+      position: relative;
       aspect-ratio: 1;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 24px;
+      font-size: 36px;
       font-weight: bold;
       cursor: pointer;
       user-select: none;
@@ -46,6 +47,21 @@
     .luukku.auki {
       background-color: #2e7d32;
       border-color: #ffffff;
+    }
+
+    .lukko-overlay {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      width: 50%;
+      height: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: inherit;
+      font-size: 18px;
+      opacity: 0.8;
+      z-index: 2;
     }
 
     /* Modal / Pop-up ikkuna */
@@ -58,6 +74,7 @@
       align-items: center;
       padding: 20px;
       box-sizing: border-box;
+      z-index: 1000;
     }
     .modal-sisalto {
       background: #ffffff;
@@ -353,7 +370,25 @@
       const luukku = document.createElement('div');
       luukku.classList.add('luukku');
       luukku.innerText = i;
-      
+
+      const nykyinenPaiva = new Date().getDate();
+      const nykyinenKuu = new Date().getMonth() + 1; // 12 = joulukuu
+    
+    // Lukossa jos ei ole vielä joulukuu TAI joulukuussa luukun numero on suurempi kuin tämänpäiväinen
+      const onkoLukossa = (nykyinenKuu < 12) || (nykyinenKuu === 12 && i > nykyinenPaiva);
+
+    if (onkoLukossa) {
+        luukku.classList.add('lukossa');
+        
+        // Luodaan läpinäkyvä lukkokerros, joka menee numeron päälle
+        const lukkoDiv = document.createElement('div');
+        lukkoDiv.classList.add('lukko-overlay');
+        lukkoDiv.innerHTML = '🔒';
+        
+        // Liitetään lukko luukun sisään
+        luukku.appendChild(lukkoDiv);
+    }
+
       if (avatutLuukut.includes(i)) {
         luukku.classList.add('auki');
       }
@@ -470,16 +505,6 @@
           const luukut = document.querySelectorAll('.luukku');
           luukut[numero - 1].classList.add('auki');
 
-          // Luodaan henkilökohtainen kiitosviesti ja näytetään se modal-ikkunassa
-          const data = luukutData[numero];
-          const henkilokohtainenSisalto = {
-            tarina: `Hyvää joulua, ${kayttajanNimi}! 🎅✨ Joulupukki ja Korvatunturin väki kiittävät sinua valtavasti avustasi jouluvalmisteluissa. Ilman sinua tämä joulu olisi ollut pulassa!`,
-            kysymys: "",
-            kuva: data.kuva,
-            lauluTeksti: data.lauluTeksti,
-            lauluUrl: data.lauluUrl
-          };
-
           naytaSisalto(henkilokohtainenSisalto, numero);
         } else {
           alert("Kirjoita ensin nimesi kenttään, ennen kuin avaat aattoluukun!");
@@ -529,12 +554,36 @@
       if (!embedUrl.includes("autoplay=1")) {
         embedUrl += embedUrl.includes("?") ? "&autoplay=1" : "?autoplay=1";
       }
+
+      let otsikkoTeksti = "✨ Luukku auki! ✨";
+      let lisateksti = "";
+
+      // Tarkistetaan erikseen, jos kyseessä on luukku 24
+      if (numero === 24) {
+        // Haetaan localStoragesta käyttäjän syöttämä nimi (turvallisesti varasanalla varustettuna)
+        const kayttajanNimi = localStorage.getItem('kayttajanNimi') || 'ystäväni';
+        
+        otsikkoTeksti = "🎄 Jouluaatto 🎄";
+        
+        // Luodaan luukulle 24 oma kaunis tervehdyslaatikko
+        lisateksti = `
+          <div style="background: #fff8e8; border: 2px dashed #d4af37; padding: 12px; border-radius: 8px; margin-bottom: 15px;">
+            <p style="font-size: 16px; font-weight: bold; color: #00425e; margin: 0;">
+              Lämmin kiitos kuluneesta joulukuusta, ${kayttajanNimi}! Olet levittänyt mahtavaa joulumieltä Korvatunturin väen puolesta. Oikein rauhallista ja hyvää joulua! 🎅✨
+            </p>
+          </div>
+        `;
+      }
+
+      // Rakennetaan modaalin sisällön HTML puhtaasti ilman monimutkaisia sisäkkäisiä ehtoja ---
       modalSisalto.innerHTML = `
-        <h2>Luukku auki! 🎉</h2>
+        <h2>${otsikkoTeksti}</h2>
+        ${lisateksti}
+        
         <img src="${data.kuva}" alt="Joulukuva">
 
         <div style="margin: 15px 0;">
-          <a href="${data.lauluUrl}" target="_blank" rel="noopener noreferrer" style="display: inline-block; background-color: #ff0000; color: white; padding: 8px 14px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 14px;">
+          <a href="${embedUrl}" target="_blank" rel="noopener noreferrer" style="display: inline-block; background-color: #ff0000; color: white; padding: 8px 14px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 14px;">
             ▶ ${data.lauluTeksti}
           </a>
         </div>
@@ -542,6 +591,9 @@
         <button class="uudelleen-nappi" onclick="yritaUudelleen(${numero})">Yritä pulmaa uudelleen 🔄</button>
         <button class="sulkemispainike" onclick="suljeModal()">Sulje</button>
       `;
+
+      // Varmistetaan että ikikkuna aukeaa varmasti
+      modal.style.display = 'flex';
     }
 
     function yritaUudelleen(numero) {
